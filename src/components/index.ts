@@ -10,5 +10,5 @@ export * from './ui'
 // 레이아웃 관련 컴포넌트
 export * from './layout'
 
-// 논문 관련 컴포넌트
+// 학습 자료 관련 컴포넌트
 export * from './paper' 

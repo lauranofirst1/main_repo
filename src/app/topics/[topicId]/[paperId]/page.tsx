@@ -13,11 +13,11 @@ import { Stepper, Step, StepLabel } from '@mui/material'
 import { styled } from '@mui/material/styles'
 
 const steps: { key: LearningStep; label: string }[] = [
-  { key: 'reading', label: '논문 읽기' },
-  { key: 'summary', label: '논문 요약' },
-  { key: 'quiz', label: '논문 퀴즈' },
+  { key: 'reading', label: '문서 읽기' },
+  { key: 'summary', label: '문서 요약' },
+  { key: 'quiz', label: '문서 퀴즈' },
   { key: 'wrong_answer', label: '오답노트' },
-  { key: 'stats', label: '논문 통계' }
+  { key: 'stats', label: '학습 통계' }
 ]
 
 const CustomStepper = styled(Stepper)(() => ({
@@ -90,7 +90,7 @@ export default function PaperLearningPage({ params }: PaperLearningPageProps) {
 
   const { paperId, topicId } = params
 
-  // 논문 페이지에 접근할 때 최근 본 기록 업데이트
+  // 문서 페이지에 접근할 때 최근 본 기록 업데이트
   useEffect(() => {
     if (user?.id && paperId) {
       updateRecentView('paper', parseInt(paperId))
@@ -104,7 +104,7 @@ export default function PaperLearningPage({ params }: PaperLearningPageProps) {
     setCurrentStep('reading')
   }, [setCurrentStep])
 
-  // 퀴즈에서 틀린 문제의 근거를 옆 논문에서 표시하는 함수
+  // 퀴즈에서 틀린 문제의 근거를 옆 문서에서 표시하는 함수
   const handleShowEvidenceInPaper = useCallback((contentId: number, highlightInfo?: { evidence: string; startIndex: number; endIndex: number }) => {
     console.log('handleShowEvidenceInPaper 호출됨:', { contentId, highlightInfo })
     setTargetContentId(contentId)

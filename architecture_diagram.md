@@ -1,4 +1,4 @@
-# Synthiq - AI 논문 학습 플랫폼 아키텍처
+# StudyWithAI - AI 학습 플랫폼 아키텍처
 
 ## 전체 시스템 아키텍처
 

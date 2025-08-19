@@ -15,7 +15,7 @@ export interface ApiResponse<T = any> {
   message?: string
 }
 
-// 논문 ID를 사용하여 PDF에서 문단 추출
+// 학습 자료 ID를 사용하여 PDF에서 문단 추출
 export async function extractParagraphsFromPaper(paperId: string): Promise<void> {
   try {
     const response = await fetch('/api/process-paper', {
@@ -41,7 +41,7 @@ export async function extractParagraphsFromPaper(paperId: string): Promise<void>
   }
 }
 
-// 특정 논문의 모든 문단 조회
+// 특정 학습 자료의 모든 문단 조회
 export async function getPaperContents(paperId: string): Promise<PaperContent[]> {
   try {
     const response = await fetch(`/api/papers/${paperId}/contents`)
@@ -75,8 +75,8 @@ export async function getPaperContents(paperId: string): Promise<PaperContent[]>
       return []
     }
   } catch (error) {
-    console.error('논문 콘텐츠 조회 API 오류:', error)
-    throw new Error(`논문 콘텐츠 조회에 실패했습니다: ${error instanceof Error ? error.message : '알 수 없는 오류'}`)
+    console.error('학습 자료 콘텐츠 조회 API 오류:', error)
+    throw new Error(`학습 자료 콘텐츠 조회에 실패했습니다: ${error instanceof Error ? error.message : '알 수 없는 오류'}`)
   }
 }
 
@@ -97,7 +97,7 @@ export async function getPaperContent(paperId: string, contentId: string): Promi
   }
 }
 
-// 논문 콘텐츠 삭제 (Next.js API 라우트 사용)
+// 학습 자료 콘텐츠 삭제 (Next.js API 라우트 사용)
 export async function deletePaperContents(paperId: string): Promise<void> {
   try {
     const response = await fetch(`/api/papers/${paperId}/contents`, {
@@ -108,8 +108,8 @@ export async function deletePaperContents(paperId: string): Promise<void> {
       throw new Error(`API 호출 실패: ${response.status} ${response.statusText}`)
     }
   } catch (error) {
-    console.error('논문 콘텐츠 삭제 오류:', error)
-    throw new Error(`논문 콘텐츠 삭제에 실패했습니다: ${error instanceof Error ? error.message : '알 수 없는 오류'}`)
+    console.error('학습 자료 콘텐츠 삭제 오류:', error)
+    throw new Error(`학습 자료 콘텐츠 삭제에 실패했습니다: ${error instanceof Error ? error.message : '알 수 없는 오류'}`)
   }
 }
 

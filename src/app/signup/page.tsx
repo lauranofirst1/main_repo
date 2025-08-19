@@ -105,9 +105,9 @@ export default function SignupPage() {
             <Brain className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            Synthiq
+            StudyWithAI
           </h1>
-          <p className="text-gray-600 mt-2">생성형 AI를 활용한 메타인지 학습 플랫폼</p>
+          <p className="text-gray-600 mt-2">AI를 활용한 스마트한 학습 플랫폼</p>
         </div>
 
         {/* 회원가입 폼 */}
@@ -247,7 +247,7 @@ export default function SignupPage() {
         {/* 하단 설명 */}
         <div className="text-center mt-8">
           <p className="text-gray-500 text-sm">
-            논문을 읽고, 요약하고, 퀴즈로 학습하세요
+            학습 자료를 읽고, 요약하고, 퀴즈로 학습하세요
           </p>
         </div>
       </div>

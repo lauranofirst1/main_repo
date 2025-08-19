@@ -1,6 +1,6 @@
-# 🧠 Synthiq - AI 논문 학습 플랫폼
+# 🧠 StudyWithAI - AI 학습 플랫폼
 
-**AI를 활용한 지능형 논문 학습 및 퀴즈 생성 플랫폼**
+**AI를 활용한 지능형 학습 및 퀴즈 생성 플랫폼**
 
 [![Next.js](https://img.shields.io/badge/Next.js-13.5.6-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)](https://www.typescriptlang.org/)
@@ -11,17 +11,18 @@
 
 ## 📖 프로젝트 소개
 
-Synthiq는 AI 기술을 활용하여 논문 학습을 혁신적으로 개선하는 플랫폼입니다. 사용자가 업로드한 PDF 논문을 분석하고, AI가 자동으로 퀴즈를 생성하며, 개인화된 학습 통계를 제공합니다.
+StudyWithAI는 AI 기술을 활용하여 학습을 혁신적으로 개선하는 플랫폼입니다. 대학생부터 중고등학생까지 모든 학습자가 PDF 문서(논문, 교과서, 학습자료 등)를 업로드하면 AI가 자동으로 분석하고, 맞춤형 퀴즈를 생성하며, 개인화된 학습 통계를 제공합니다.
 
 ### ✨ 주요 기능
 
-- **📄 PDF 논문 업로드 및 분석**
+- **📄 PDF 문서 업로드 및 분석** (논문, 교과서, 학습자료 등)
 - **🤖 AI 자동 퀴즈 생성** (객관식, 단답형, 서술형)
 - **📊 개인화된 학습 통계 및 차트**
 - **📝 AI 번역 및 요약 기능**
 - **💾 개인 정리노트 작성**
 - **⭐ 즐겨찾기 및 최근 본 목록**
 - **📱 반응형 웹 디자인**
+- **🎯 학년별 맞춤 학습 콘텐츠**
 
 ---
 
@@ -103,7 +104,7 @@ src/
 │   ├── api/               # API 라우트
 │   ├── login/             # 로그인 페이지
 │   ├── signup/            # 회원가입 페이지
-│   └── topics/            # 토픽 및 논문 페이지
+│   └── topics/            # 토픽 및 문서 페이지
 ├── components/            # React 컴포넌트
 │   ├── steps/             # 학습 단계별 컴포넌트
 │   ├── ui/                # 재사용 가능한 UI 컴포넌트
@@ -117,11 +118,11 @@ src/
 
 ## 🎯 주요 기능 상세
 
-### 📚 논문 학습 플로우
+### 📚 학습 플로우
 
-1. **토픽 생성** → 논문을 분류할 주제 생성
-2. **PDF 업로드** → 논문 PDF 파일 업로드
-3. **AI 분석** → 논문 내용 자동 분석 및 텍스트 추출
+1. **토픽 생성** → 학습할 주제 생성
+2. **PDF 업로드** → 학습 자료 PDF 파일 업로드
+3. **AI 분석** → 문서 내용 자동 분석 및 텍스트 추출
 4. **학습 단계**:
    - 📖 **읽기**: 원문 및 번역본 확인
    - 📝 **요약**: AI 요약 및 개인 정리노트
@@ -130,7 +131,7 @@ src/
 
 ### 🤖 AI 기능
 
-- **퀴즈 생성**: 논문 내용 기반 맞춤형 퀴즈
+- **퀴즈 생성**: 문서 내용 기반 맞춤형 퀴즈 (학년별 난이도 조절)
 - **번역**: 한국어 번역 제공
 - **요약**: 핵심 내용 AI 요약
 - **채점**: 주관식 답변 AI 채점 및 피드백
@@ -141,6 +142,12 @@ src/
 - 시간별 학습 패턴
 - 일일 학습 기록
 - 최근 성적 추이
+
+### 🎓 학년별 맞춤 기능
+
+- **중고등학생**: 교과서 기반 학습, 기초 개념 설명
+- **대학생**: 논문 분석, 심화 학습
+- **일반인**: 다양한 주제의 학습 자료 활용
 
 ---
 
@@ -223,8 +230,8 @@ npm run start
 
 ## 📞 문의
 
-- **프로젝트 링크**: [https://github.com/your-username/synthiq](https://github.com/your-username/synthiq)
-- **이슈 리포트**: [GitHub Issues](https://github.com/your-username/synthiq/issues)
+- **프로젝트 링크**: [https://github.com/your-username/studywithai](https://github.com/your-username/studywithai)
+- **이슈 리포트**: [GitHub Issues](https://github.com/your-username/studywithai/issues)
 
 ---
 
@@ -239,6 +246,6 @@ npm run start
 
 <div align="center">
 
-**Synthiq로 더 스마트한 논문 학습을 시작하세요! 🧠✨**
+**StudyWithAI로 더 스마트한 학습을 시작하세요! 🧠✨**
 
 </div>

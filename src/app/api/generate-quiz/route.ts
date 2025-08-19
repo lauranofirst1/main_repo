@@ -166,8 +166,8 @@ function generateQuizPrompt(paper: any, contents: any[], options: any): string {
   
   // 목적별 카테고리 설명
   const purposeDescription = defaultPurpose === 'learning' 
-    ? '일반 학습용 (학부생 수준의 개념 이해)'
-    : '논문 학습용 (연구 논문 심화 분석)'
+    ? '일반 학습용 (중고등학생 수준의 개념 이해)'
+    : '심화 학습용 (대학생 수준의 심화 분석)'
   
   // 카테고리 설명
   const categoryDescriptions: Record<string, string> = {
@@ -197,10 +197,10 @@ function generateQuizPrompt(paper: any, contents: any[], options: any): string {
     code_understanding: '코드 분석 및 이해'
   }
   
-  let prompt = `다음 논문을 기반으로 ${questionCount}개의 퀴즈를 생성해주세요.
+  let prompt = `다음 학습 자료를 기반으로 ${questionCount}개의 퀴즈를 생성해주세요.
 
-논문 제목: ${paper.paper_title}
-논문 초록: ${paper.paper_abstract}
+학습 자료 제목: ${paper.paper_title}
+학습 자료 초록: ${paper.paper_abstract}
 
 🎯 학습 목적: ${purposeDescription}
 📂 선택된 카테고리: ${defaultCategories.map((cat: string) => `${cat} (${categoryDescriptions[cat]})`).join(', ')}
@@ -209,7 +209,7 @@ function generateQuizPrompt(paper: any, contents: any[], options: any): string {
 
 ${focusPages && focusPages.length > 0 ? `선택된 페이지: ${focusPages.map((p: number) => p + 1).join(', ')}` : '전체 페이지에서 퀴즈 생성'}
 
-논문 내용:
+학습 자료 내용:
 ${contents.map((content, index) => `${content.content_index + 1}. [${content.content_type}] ${content.content_text.substring(0, 500)}...`).join('\n')}
 
 다음 JSON 형식으로 정확히 응답해주세요:
@@ -223,7 +223,7 @@ ${contents.map((content, index) => `${content.content_index + 1}. [${content.con
     "quiz_explanation": "해설",
     "content_index": 0,
     "quiz_category": "카테고리명",
-    "quiz_evidence": "논문에서 정답의 근거가 되는 구체적인 텍스트 (20-100단어)",
+    "quiz_evidence": "학습 자료에서 정답의 근거가 되는 구체적인 텍스트 (20-100단어)",
     "quiz_evidence_start_index": -1,
     "quiz_evidence_end_index": -1
   }
@@ -235,12 +235,12 @@ ${contents.map((content, index) => `${content.content_index + 1}. [${content.con
 - 단답형은 핵심 키워드로 답할 수 있는 문제로 만드세요
 - 서술형은 논리적 사고가 필요한 문제로 만드세요
 - 코드 이해는 코드 분석이나 알고리즘 이해 문제로 만드세요
-- content_index는 해당하는 논문 내용의 인덱스를 사용하세요
+- content_index는 해당하는 학습 자료 내용의 인덱스를 사용하세요
 - 난이도에 맞게 문제를 조정하세요 (쉬움: 기본 개념, 보통: 응용, 어려움: 심화)
-- 정답과 해설은 논문 내용을 정확히 반영하세요
+- 정답과 해설은 학습 자료 내용을 정확히 반영하세요
 - 선택된 카테고리에 맞는 문제를 생성하세요
 - 선택된 퀴즈 유형만 생성하세요 (선택하지 않은 유형은 생성하지 마세요)
-- quiz_evidence는 논문 내용에서 정답의 근거가 되는 구체적인 문장이나 구절을 그대로 인용하세요
+- quiz_evidence는 학습 자료 내용에서 정답의 근거가 되는 구체적인 문장이나 구절을 그대로 인용하세요
 - quiz_evidence는 일반적인 설명("이 연구는", "본 논문은" 등)이 아닌 구체적인 내용이어야 합니다`
 
   return prompt
@@ -260,7 +260,7 @@ async function generateQuizzesWithAI(prompt: string, options: any, contents: any
         messages: [
           {
             role: 'system',
-            content: '당신은 논문 내용을 기반으로 퀴즈를 생성하는 전문가입니다. 주어진 논문 내용을 분석하여 다양한 유형의 퀴즈를 생성해주세요.'
+            content: '당신은 학습 자료 내용을 기반으로 퀴즈를 생성하는 전문가입니다. 주어진 학습 자료 내용을 분석하여 다양한 유형의 퀴즈를 생성해주세요.'
           },
           {
             role: 'user',

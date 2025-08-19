@@ -1,4 +1,4 @@
-// 논문 콘텐츠 기반 퀴즈 정보를 저장하는 테이블
+// 학습 자료 콘텐츠 기반 퀴즈 정보를 저장하는 테이블
 export interface PaperQuiz {
   quiz_id: number; // 퀴즈 고유 ID
   quiz_content_id: number; // 소속 콘텐츠 ID

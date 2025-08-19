@@ -266,7 +266,7 @@ export default function TopicPage() {
         />
 
         <div className="mt-8">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">업로드된 논문 목록</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">업로드된 학습 자료 목록</h2>
 
           {papersLoading ? (
             <div className="text-gray-500">로딩 중...</div>
@@ -310,7 +310,7 @@ export default function TopicPage() {
                     <thead className="bg-gradient-to-r from-blue-50 to-purple-50 border-b border-blue-200">
                     <tr>
                         <th className="px-6 py-4 text-left text-xs font-semibold text-blue-700 uppercase tracking-wider w-2/3">
-                          논문 정보
+                          학습 자료 정보
                         </th>
                         <th className="px-6 py-4 text-left text-xs font-semibold text-blue-700 uppercase tracking-wider w-1/4">
                           생성일
@@ -381,7 +381,7 @@ export default function TopicPage() {
             )
           ) : (
             <div className="bg-gray-50 rounded-lg p-4 text-center text-gray-500">
-              {searchQuery ? `"${searchQuery}"에 대한 검색 결과가 없습니다.` : '아직 업로드된 논문이 없습니다.'}
+              {searchQuery ? `"${searchQuery}"에 대한 검색 결과가 없습니다.` : '아직 업로드된 학습 자료가 없습니다.'}
             </div>
           )}
         </div>
