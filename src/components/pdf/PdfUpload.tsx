@@ -72,9 +72,9 @@ export default function PdfUpload({ topicId, onUploadSuccess, onUploadError }: P
       return
     }
 
-    // 파일 크기 검증 (10MB 제한)
-    if (file.size > 10 * 1024 * 1024) {
-      onUploadError?.('파일 크기는 10MB 이하여야 합니다.')
+    // 파일 크기 검증 (20MB 제한)
+    if (file.size > 20 * 1024 * 1024) {
+      onUploadError?.('파일 크기는 20MB 이하여야 합니다.')
       return
     }
 
@@ -111,7 +111,7 @@ export default function PdfUpload({ topicId, onUploadSuccess, onUploadError }: P
       console.log('현재 사용자 ID:', session.user.id)
 
       if (topicData.topic_user_id !== session.user.id) {
-        throw new Error('이 주제에 논문을 추가할 권한이 없습니다.')
+        throw new Error('이 주제에 문서를 추가할 권한이 없습니다.')
       }
 
       // 안전한 파일명 생성
@@ -151,10 +151,10 @@ export default function PdfUpload({ topicId, onUploadSuccess, onUploadError }: P
 
       if (paperError) {
         console.error('Paper 테이블 생성 오류:', paperError)
-        throw new Error('논문 정보 저장에 실패했습니다.')
+        throw new Error('문서 정보 저장에 실패했습니다.')
       }
 
-      console.log('논문 저장 성공:', paperData)
+              console.log('문서 저장 성공:', paperData)
       setUploadProgress(60)
 
       // 3. 외부 API를 사용하여 PDF 텍스트 추출

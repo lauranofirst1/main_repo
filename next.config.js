@@ -17,6 +17,14 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV === 'production',
   },
   
+  // API 라우트 설정 - 파일 업로드 크기 제한
+  api: {
+    bodyParser: {
+      sizeLimit: '20mb', // 20MB로 설정
+    },
+    responseLimit: '20mb',
+  },
+  
   webpack: (config, { isServer }) => {
     // PDF.js 관련 경고 무시
     config.ignoreWarnings = [

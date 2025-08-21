@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    // 논문 최근 본 목록 가져오기
+    // 문서 최근 본 목록 가져오기
     const { data: paperViews, error: paperError } = await supabase
       .from('paper_recent_views')
       .select(`
@@ -56,9 +56,9 @@ export async function GET(request: NextRequest) {
       .limit(3)
 
     if (paperError) {
-      console.error('논문 최근 본 목록 조회 오류:', paperError)
+              console.error('문서 최근 본 목록 조회 오류:', paperError)
       return NextResponse.json(
-        { error: '논문 최근 본 목록을 가져올 수 없습니다.' },
+                  { error: '문서 최근 본 목록을 가져올 수 없습니다.' },
         { status: 500 }
       )
     }

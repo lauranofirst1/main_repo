@@ -12,7 +12,7 @@ export default function PdfTextExtractor({ paperId }: PdfTextExtractorProps) {
 
   const handleExtractText = async () => {
     if (!inputPaperId) {
-      alert('논문 ID를 입력해주세요.');
+              alert('문서 ID를 입력해주세요.');
       return;
     }
 
@@ -56,7 +56,7 @@ export default function PdfTextExtractor({ paperId }: PdfTextExtractorProps) {
           type="text"
           value={inputPaperId}
           onChange={(e) => setInputPaperId(e.target.value)}
-          placeholder="논문 ID를 입력하세요"
+                          placeholder="문서 ID를 입력하세요"
           className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <button

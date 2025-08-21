@@ -178,7 +178,7 @@ export default function PaperLearningPage({ params }: PaperLearningPageProps) {
           </div>
         ) : (
           <div className="flex flex-col lg:flex-row w-full h-full transition-all duration-500 gap-4">
-            {/* 모바일/태블릿: 위쪽에 요약/퀴즈/통계, 아래쪽에 논문 내용 */}
+            {/* 모바일/태블릿: 위쪽에 요약/퀴즈/통계, 아래쪽에 문서 내용 */}
             <div className="lg:hidden flex flex-col w-full h-full gap-4">
               {/* 위쪽: 요약/퀴즈/통계 */}
               <div className="flex-1 min-h-0">
@@ -193,7 +193,7 @@ export default function PaperLearningPage({ params }: PaperLearningPageProps) {
                 />
               </div>
               
-              {/* 아래쪽: 논문 내용 */}
+              {/* 아래쪽: 문서 내용 */}
               <div className="flex-1 min-h-0">
                 <PaperContent
                   paperId={paperId}

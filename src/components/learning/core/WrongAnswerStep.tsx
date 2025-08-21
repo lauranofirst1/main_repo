@@ -118,7 +118,7 @@ export default function WrongAnswerStep({ paperId, onShowEvidenceInPaper, isTran
           return
         }
 
-        // 해당 논문의 content_id를 가져옴
+        // 해당 문서의 content_id를 가져옴
         const { data: contentData, error: contentError } = await supabase
           .from('paper_contents')
           .select('content_id')

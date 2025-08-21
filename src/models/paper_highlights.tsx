@@ -1,7 +1,7 @@
-// 논문 하이라이트를 저장하는 테이블
+// 문서 하이라이트를 저장하는 테이블
 export interface PaperHighlight {
   highlight_id: number; // 하이라이트 고유 ID
-  highlight_paper_id: number; // 소속 논문 ID
+  highlight_paper_id: number; // 소속 문서 ID
   highlight_content_id?: number; // 소속 콘텐츠 ID (선택사항)
   highlight_page_id?: string; // 페이지 ID (선택사항)
   highlight_text: string; // 하이라이트된 텍스트

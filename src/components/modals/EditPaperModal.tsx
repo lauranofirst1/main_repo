@@ -33,9 +33,9 @@ export default function EditPaperModal({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
       <div className="bg-white p-6 rounded-lg w-full max-w-md shadow-xl">
-        <h2 className="text-xl font-bold mb-4">논문 수정</h2>
+        <h2 className="text-xl font-bold mb-4">문서 수정</h2>
         
-        <label className="text-sm font-semibold">논문 제목</label>
+                  <label className="text-sm font-semibold">문서 제목</label>
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}

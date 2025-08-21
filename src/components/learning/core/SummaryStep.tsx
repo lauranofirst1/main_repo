@@ -1,5 +1,5 @@
-// 논문 요약 단계를 표시하는 컴포넌트
-// Supabase에서 실제 논문 요약 정보를 가져와서 표시
+// 문서 요약 단계를 표시하는 컴포넌트
+// Supabase에서 실제 문서 요약 정보를 가져와서 표시
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
@@ -64,7 +64,7 @@ export default function SummaryStep({ paperId, activeTab }: SummaryStepProps) {
     try {
       setLoading(true)
       
-      // 논문 정보 가져오기
+      // 문서 정보 가져오기
       const { data: paperData, error: paperError } = await supabase
         .from('paper')
         .select('*')
@@ -78,7 +78,7 @@ export default function SummaryStep({ paperId, activeTab }: SummaryStepProps) {
 
       setPaper(paperData)
 
-      // 논문의 모든 문단 content_id 가져오기
+      // 문서의 모든 문단 content_id 가져오기
       const { data: contents, error: contentsError } = await supabase
         .from('paper_contents')
         .select('content_id')
@@ -278,7 +278,7 @@ export default function SummaryStep({ paperId, activeTab }: SummaryStepProps) {
           <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
             <span className="text-white font-bold text-sm">📝</span>
           </div>
-          <h3 className="text-xl font-semibold text-gray-800">논문 요약</h3>
+          <h3 className="text-xl font-semibold text-gray-800">문서 요약</h3>
         </div>
         <div className="space-y-3">
           {Array.from({ length: 6 }, (_, i) => (
@@ -297,7 +297,7 @@ export default function SummaryStep({ paperId, activeTab }: SummaryStepProps) {
           <div className="w-8 h-8 bg-gradient-to-r from-red-500 to-pink-600 rounded-full flex items-center justify-center">
             <span className="text-white font-bold text-sm">⚠️</span>
           </div>
-          <h3 className="text-xl font-semibold text-gray-800">논문 요약</h3>
+          <h3 className="text-xl font-semibold text-gray-800">문서 요약</h3>
         </div>
         <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
           <div className="text-red-600 font-medium">오류: {error}</div>

@@ -1,4 +1,4 @@
-// 논문 통계 단계를 표시하는 컴포넌트
+// 문서 통계 단계를 표시하는 컴포넌트
 // Supabase에서 실제 테스트 응시 기록을 가져와서 통계 정보를 표시
 'use client'
 
@@ -48,7 +48,7 @@ export default function StatsStep({ paperId }: StatsStepProps) {
       try {
         setLoading(true)
         
-        // 먼저 해당 논문의 test_id들을 가져옴
+        // 먼저 해당 문서의 test_id들을 가져옴
         const { data: tests, error: testsError } = await supabase
           .from('paper_tests')
           .select('test_id')

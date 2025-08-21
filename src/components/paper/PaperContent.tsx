@@ -1,5 +1,5 @@
-// 논문 내용을 표시하는 컴포넌트
-// ReadingStep 컴포넌트를 재사용하여 논문 정보와 PDF를 표시
+// 문서 내용을 표시하는 컴포넌트
+// ReadingStep 컴포넌트를 재사용하여 문서 정보와 PDF를 표시
 'use client'
 
 
@@ -34,7 +34,7 @@ const PaperContent = React.memo(function PaperContent({ paperId, topicId, isColl
   const [activeTab, setActiveTab] = useState<'original' | 'translation'>('original')
   const [currentPage, setCurrentPage] = useState(0)
   
-  // 전체 논문 검색 결과를 저장할 상태
+  // 전체 문서 검색 결과를 저장할 상태
   const [processedTargetHighlightInfo, setProcessedTargetHighlightInfo] = useState<{ evidence: string; startIndex: number; endIndex: number } | undefined>(undefined)
   const [scrollToHighlightId, setScrollToHighlightId] = useState<string | null>(null)
   
@@ -67,12 +67,12 @@ const PaperContent = React.memo(function PaperContent({ paperId, topicId, isColl
         .order('content_index', { ascending: true })
 
       if (error) {
-        console.error('논문 내용 로드 오류:', error)
+        console.error('문서 내용 로드 오류:', error)
       } else {
         setContents(data || [])
       }
     } catch (err) {
-      console.error('논문 내용 로드 오류:', err)
+              console.error('문서 내용 로드 오류:', err)
     }
   }, [paperId])
 
@@ -85,13 +85,13 @@ const PaperContent = React.memo(function PaperContent({ paperId, topicId, isColl
         .single()
 
       if (error) {
-        console.error('논문 정보 로드 오류:', error)
+        console.error('문서 정보 로드 오류:', error)
       } else {
         setPaper(data)
         setPaperTitle(data?.paper_title || '')
       }
     } catch (err) {
-      console.error('논문 정보 로드 오류:', err)
+              console.error('문서 정보 로드 오류:', err)
     }
   }, [paperId])
 
@@ -123,12 +123,12 @@ const PaperContent = React.memo(function PaperContent({ paperId, topicId, isColl
     }
   }, [targetContentId, contents])
 
-  // targetHighlightInfo가 있을 때 전체 논문에서 근거 검색
+        // targetHighlightInfo가 있을 때 전체 문서에서 근거 검색
   useEffect(() => {
     if (targetHighlightInfo && contents.length > 0) {
       console.log('PaperContent에서 targetHighlightInfo 받음:', targetHighlightInfo)
       
-      // 전체 논문에서 근거 검색
+              // 전체 문서에서 근거 검색
       const searchEvidenceInAllPages = async () => {
         const evidence = targetHighlightInfo.evidence
         
@@ -196,7 +196,7 @@ const PaperContent = React.memo(function PaperContent({ paperId, topicId, isColl
           }
         }
         
-        console.log('전체 논문에서 근거를 찾을 수 없습니다:', evidence)
+                  console.log('전체 문서에서 근거를 찾을 수 없습니다:', evidence)
         // 찾지 못한 경우에도 processedTargetHighlightInfo 설정 (Highlighter에서 처리)
         setProcessedTargetHighlightInfo(targetHighlightInfo)
       }
@@ -235,7 +235,7 @@ const PaperContent = React.memo(function PaperContent({ paperId, topicId, isColl
 
   const handleTranslate = useCallback(async () => {
     try {
-      startTranslation(paperId, paperTitle || '논문', topicId)
+              startTranslation(paperId, paperTitle || '문서', topicId)
 
       const response = await fetch('/api/translate-paper', {
         method: 'POST',
@@ -313,7 +313,7 @@ const PaperContent = React.memo(function PaperContent({ paperId, topicId, isColl
             <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
               <span className="text-white font-bold text-sm">📄</span>
             </div>
-            <h3 className="text-xl font-semibold text-gray-800">논문 내용</h3>
+                          <h3 className="text-xl font-semibold text-gray-800">문서 내용</h3>
           </div>
           <div className="flex items-center space-x-4">
             {activeTab === 'translation' && (
@@ -541,7 +541,7 @@ const PaperContent = React.memo(function PaperContent({ paperId, topicId, isColl
                 </div>
               </>
             ) : (
-              <div className="text-gray-500">논문 내용이 없습니다.</div>
+              <div className="text-gray-500">문서 내용이 없습니다.</div>
             )}
           </div>
         ) : (
@@ -553,7 +553,7 @@ const PaperContent = React.memo(function PaperContent({ paperId, topicId, isColl
                   <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
                     <span className="text-white font-bold text-sm">📄</span>
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-800">논문 PDF</h3>
+                  <h3 className="text-lg font-semibold text-gray-800">문서 PDF</h3>
                 </div>
                 <div className="flex-1 bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
                   <PdfViewer 

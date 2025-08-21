@@ -24,7 +24,7 @@ export default function AIProgressIndicator() {
                       }`}
                       onClick={() => {
                         if (!isGeneratingSummary && messages.summary && currentPaperId && currentTopicId) {
-                          // 논문 상세 페이지로 이동
+                          // 문서 상세 페이지로 이동
                           router.push(`/topics/${currentTopicId}/${currentPaperId}`)
                         }
                       }}
@@ -73,7 +73,7 @@ export default function AIProgressIndicator() {
                       }`}
                       onClick={() => {
                         if (!isGeneratingQuiz && messages.quiz && currentPaperId && currentTopicId) {
-                          // 논문 상세 페이지로 이동
+                          // 문서 상세 페이지로 이동
                           router.push(`/topics/${currentTopicId}/${currentPaperId}`)
                         }
                       }}
@@ -122,7 +122,7 @@ export default function AIProgressIndicator() {
                       }`}
                       onClick={() => {
                         if (!isTranslating && messages.translation && currentPaperId && currentTopicId) {
-                          // 논문 상세 페이지로 이동
+                          // 문서 상세 페이지로 이동
                           router.push(`/topics/${currentTopicId}/${currentPaperId}`)
                         }
                       }}

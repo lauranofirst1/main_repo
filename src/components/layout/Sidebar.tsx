@@ -83,7 +83,7 @@ export default function Sidebar({ userName, userEmail }: SidebarProps) {
       setFavoriteTopics(topicFavs.map(fav => fav.topics as unknown as Topic))
     }
 
-    // 즐겨찾기된 논문 가져오기
+    // 즐겨찾기된 문서 가져오기
     const { data: paperFavs, error: paperErr } = await supabase
       .from('paper_favorites')
       .select(`
@@ -228,13 +228,13 @@ export default function Sidebar({ userName, userEmail }: SidebarProps) {
           )}
         </div>
 
-        {/* 최근 본 논문 */}
+        {/* 최근 본 문서 */}
         <div className="mb-6">
           <div className="flex items-center space-x-2 mb-3">
             <div className="w-6 h-6 bg-gradient-to-r from-purple-500 to-violet-600 rounded-full flex items-center justify-center">
               <Calendar className="w-3 h-3 text-white" />
             </div>
-            <h2 className="text-sm font-semibold text-gray-700">최근 본 논문</h2>
+                          <h2 className="text-sm font-semibold text-gray-700">최근 본 문서</h2>
           </div>
           {loading ? (
             <p className="text-sm text-gray-500 px-2">로딩 중...</p>
@@ -314,13 +314,13 @@ export default function Sidebar({ userName, userEmail }: SidebarProps) {
           )}
         </div>
 
-        {/* 논문 즐겨찾기 */}
+        {/* 문서 즐겨찾기 */}
         <div className="mb-6">
           <div className="flex items-center space-x-2 mb-3">
             <div className="w-6 h-6 bg-gradient-to-r from-purple-500 to-violet-600 rounded-full flex items-center justify-center">
               <StarSolid className="w-3 h-3 text-white" />
             </div>
-            <h2 className="text-sm font-semibold text-gray-700">논문 즐겨찾기</h2>
+                          <h2 className="text-sm font-semibold text-gray-700">문서 즐겨찾기</h2>
           </div>
           {loading ? (
             <p className="text-sm text-gray-500 px-2">로딩 중...</p>

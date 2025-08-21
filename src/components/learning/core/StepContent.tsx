@@ -1,4 +1,4 @@
-// 논문 학습 단계별 내용을 통합 관리하는 컴포넌트
+// 문서 학습 단계별 내용을 통합 관리하는 컴포넌트
 // 현재 단계에 따라 적절한 컴포넌트(읽기/요약/퀴즈/통계)를 렌더링
 import { type LearningStep } from '@/hooks/paperStore'
 import { useState, useMemo, useCallback, useEffect } from 'react'
@@ -31,7 +31,7 @@ const StepContent = React.memo(function StepContent({ currentStep, paperId, topi
   const { state, startSummaryGeneration, startQuizGeneration, completeSummaryGeneration, completeQuizGeneration } = useAIAnalysis()
   const { isGeneratingSummary, isGeneratingQuiz } = state
 
-  // 논문 제목 가져오기
+  // 문서 제목 가져오기
   useEffect(() => {
     const fetchPaperTitle = async () => {
       try {
@@ -45,7 +45,7 @@ const StepContent = React.memo(function StepContent({ currentStep, paperId, topi
           setPaperTitle(data.paper_title)
         }
       } catch (err) {
-        console.error('논문 제목 로드 오류:', err)
+        console.error('문서 제목 로드 오류:', err)
       }
     }
 
@@ -57,15 +57,15 @@ const StepContent = React.memo(function StepContent({ currentStep, paperId, topi
   const getStepTitle = useCallback(() => {
     switch (currentStep) {
       case 'reading':
-        return '논문 읽기'
+        return '문서 읽기'
       case 'summary':
-        return '논문 요약'
+        return '문서 요약'
       case 'quiz':
-        return '논문 퀴즈'
+        return '문서 퀴즈'
       case 'wrong_answer':
         return '오답노트'
       case 'stats':
-        return '논문 통계'
+        return '학습 통계'
       default:
         return ''
     }
@@ -107,7 +107,7 @@ const StepContent = React.memo(function StepContent({ currentStep, paperId, topi
 
   const handleGenerateQuiz = useCallback(async (options: QuizGenerationOptions) => {
     try {
-      startQuizGeneration(paperId, paperTitle || '논문', topicId)
+              startQuizGeneration(paperId, paperTitle || '문서', topicId)
       console.log('퀴즈 생성 요청 시작:', { paperId, options })
       
       const response = await fetch('/api/generate-quiz', {
@@ -147,7 +147,7 @@ const StepContent = React.memo(function StepContent({ currentStep, paperId, topi
 
   const handleGenerateAISummary = useCallback(async () => {
     try {
-      startSummaryGeneration(paperId, paperTitle || '논문', topicId)
+              startSummaryGeneration(paperId, paperTitle || '문서', topicId)
       console.log('AI 요약 생성 요청 시작:', { paperId })
       
       const response = await fetch('/api/classify-and-summarize', {
@@ -179,7 +179,7 @@ const StepContent = React.memo(function StepContent({ currentStep, paperId, topi
       <button
         onClick={onTogglePaperContent}
         className="flex items-center justify-center w-8 h-8 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-600 hover:text-gray-800 transition-colors"
-        title={isPaperContentCollapsed ? "논문 내용 펼치기" : "논문 내용 접기"}
+        title={isPaperContentCollapsed ? "문서 내용 펼치기" : "문서 내용 접기"}
       >
         {isPaperContentCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
       </button>
@@ -289,7 +289,7 @@ const StepContent = React.memo(function StepContent({ currentStep, paperId, topi
     }
   }
 
-  // 논문 읽기 단계에서는 전체 화면 사용
+        // 문서 읽기 단계에서는 전체 화면 사용
   if (currentStep === 'reading') {
     return <ReadingStep paperId={paperId} topicId={topicId} />
   }

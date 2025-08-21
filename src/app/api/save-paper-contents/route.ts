@@ -12,9 +12,9 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    console.log('논문 문단 저장 시작:', paperId)
+    console.log('문서 문단 저장 시작:', paperId)
 
-    // 1. 외부 API에서 해당 논문의 모든 문단 가져오기
+    // 1. 외부 API에서 해당 문서의 모든 문단 가져오기
     const apiUrl = process.env.NEXT_PUBLIC_PDF_API_URL || 'http://localhost:8000'
     console.log(`외부 API 호출: ${apiUrl}/papers/${paperId}/contents`)
     

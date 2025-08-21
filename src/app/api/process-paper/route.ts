@@ -16,9 +16,9 @@ export async function POST(request: NextRequest) {
       )
     }
     
-    console.log('처리할 논문 ID:', paperId)
+    console.log('처리할 문서 ID:', paperId)
     
-    // 1. 논문 정보 조회 (PDF URL 가져오기)
+    // 1. 문서 정보 조회 (PDF URL 가져오기)
     const { data: paperData, error: paperError } = await supabase
       .from('paper')
       .select('paper_id, paper_title, paper_url')
@@ -26,22 +26,22 @@ export async function POST(request: NextRequest) {
       .single()
     
     if (paperError || !paperData) {
-      console.error('논문 정보 조회 실패:', paperError)
+              console.error('문서 정보 조회 실패:', paperError)
       return NextResponse.json(
-        { error: '논문 정보를 찾을 수 없습니다.' },
+                  { error: '문서 정보를 찾을 수 없습니다.' },
         { status: 404 }
       )
     }
     
     if (!paperData.paper_url) {
-      console.error('논문에 PDF URL이 없음')
+              console.error('문서에 PDF URL이 없음')
       return NextResponse.json(
-        { error: '논문에 PDF 파일이 없습니다.' },
+                  { error: '문서에 PDF 파일이 없습니다.' },
         { status: 400 }
       )
     }
     
-    console.log('논문 정보:', {
+          console.log('문서 정보:', {
       id: paperData.paper_id,
       title: paperData.paper_title,
       url: paperData.paper_url

@@ -1,4 +1,4 @@
-// 논문 퀴즈 단계를 표시하는 컴포넌트
+// 문서 퀴즈 단계를 표시하는 컴포넌트
 // Supabase와 연동하여 실제 데이터베이스에서 퀴즈 정보를 가져와서 표시
 'use client'
 
@@ -39,7 +39,7 @@ const getCategoryDisplayName = (categoryId: string): string => {
     'comparison': '비교 및 분류',
     'problem_solving': '문제 해결',
     
-    // 논문 학습용
+    // 문서 학습용
     'motivation': '연구 동기',
     'related_work': '관련 연구',
     'method': '방법론/기술',
@@ -68,6 +68,7 @@ interface TestAttempt {
   attempt_duration_sec: number
   attempt_created_at: string
   test_title?: string // 조인으로 가져올 때 사용
+  test_time_limit?: number // 시간 제한 (분 단위)
 }
 
 interface TestAttemptItem {
@@ -97,31 +98,46 @@ interface TestAttemptItem {
 }
 
 // 타이머 커스텀 훅
-const useTimer = () => {
+const useTimer = (timeLimit?: number) => {
   const [seconds, setSeconds] = useState(0)
   const [isRunning, setIsRunning] = useState(false)
+  const [isTimeUp, setIsTimeUp] = useState(false)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
-  const startTimer = () => {
+  const startTimer = useCallback(() => {
     setSeconds(0)
     setIsRunning(true)
+    setIsTimeUp(false)
     intervalRef.current = setInterval(() => {
-      setSeconds(prev => prev + 1)
+      setSeconds(prev => {
+        const newSeconds = prev + 1
+        // 시간 제한이 있고 시간이 다 되었으면 타이머 정지
+        if (timeLimit && timeLimit > 0 && newSeconds >= timeLimit * 60) {
+          setIsTimeUp(true)
+          setIsRunning(false)
+          if (intervalRef.current) {
+            clearInterval(intervalRef.current)
+            intervalRef.current = null
+          }
+        }
+        return newSeconds
+      })
     }, 1000)
-  }
+  }, [timeLimit])
 
-  const stopTimer = () => {
+  const stopTimer = useCallback(() => {
     setIsRunning(false)
     if (intervalRef.current) {
       clearInterval(intervalRef.current)
       intervalRef.current = null
     }
-  }
+  }, [])
 
-  const resetTimer = () => {
+  const resetTimer = useCallback(() => {
     stopTimer()
     setSeconds(0)
-  }
+    setIsTimeUp(false)
+  }, [stopTimer])
 
   useEffect(() => {
     return () => {
@@ -137,7 +153,22 @@ const useTimer = () => {
     return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`
   }
 
-  return { seconds, isRunning, startTimer, stopTimer, resetTimer, formatTime }
+  const getRemainingTime = () => {
+    if (!timeLimit || timeLimit <= 0) return null
+    const remaining = timeLimit * 60 - seconds
+    return remaining > 0 ? remaining : 0
+  }
+
+  return { 
+    seconds, 
+    isRunning, 
+    isTimeUp,
+    startTimer, 
+    stopTimer, 
+    resetTimer, 
+    formatTime,
+    getRemainingTime
+  }
 }
 
 export default function QuizStep({ paperId, onNavigateToContent, onShowEvidenceInPaper, isTranslationActive = false }: QuizStepProps) {
@@ -153,8 +184,9 @@ export default function QuizStep({ paperId, onNavigateToContent, onShowEvidenceI
   const [generatingQuiz, setGeneratingQuiz] = useState(false)
   const [gradingAnswers, setGradingAnswers] = useState(false)
 
-  // 타이머 훅 사용
-  const { seconds, isRunning, startTimer, stopTimer, resetTimer, formatTime } = useTimer()
+  // 타이머 훅 사용 (시간 제한 적용)
+  const [currentTimeLimit, setCurrentTimeLimit] = useState<number>(30) // 기본 30분
+  const { seconds, isRunning, isTimeUp, startTimer, stopTimer, resetTimer, formatTime, getRemainingTime } = useTimer(currentTimeLimit)
 
   const fetchQuizzes = useCallback(async () => {
     try {
@@ -313,9 +345,14 @@ export default function QuizStep({ paperId, onNavigateToContent, onShowEvidenceI
   }
 
   const startQuiz = (attempt: TestAttempt) => {
+    // 테스트의 시간 제한 설정 (기본값 30분)
+    const timeLimit = attempt.test_time_limit || 30
+    setCurrentTimeLimit(timeLimit)
+    
     setCurrentAttempt(attempt)
     setIsTakingQuiz(true)
     setUserAnswers({})
+    resetTimer() // 타이머 리셋 후 시작
     startTimer() // 타이머 시작
   }
 
@@ -345,9 +382,15 @@ export default function QuizStep({ paperId, onNavigateToContent, onShowEvidenceI
           
           // 퀴즈 목록 설정
           setQuizzes(quizzes)
+          
+          // 새 테스트의 시간 제한 설정 (기본값 30분)
+          const timeLimit = attempt.test_time_limit || 30
+          setCurrentTimeLimit(timeLimit)
+          
           setCurrentAttempt(attempt)
           setIsTakingQuiz(true)
           setUserAnswers({})
+          resetTimer() // 타이머 리셋 후 시작
           startTimer() // 타이머 시작
         } else {
           throw new Error('이 테스트에 퀴즈가 없습니다.')
@@ -494,7 +537,7 @@ export default function QuizStep({ paperId, onNavigateToContent, onShowEvidenceI
     }
   }
 
-  const submitQuiz = async () => {
+  const submitQuiz = useCallback(async () => {
     if (!currentAttempt) return
 
     try {
@@ -669,7 +712,34 @@ export default function QuizStep({ paperId, onNavigateToContent, onShowEvidenceI
     } finally {
       setGradingAnswers(false)
     }
-  }
+  }, [currentAttempt, userAnswers, quizzes, seconds, stopTimer, viewAttemptHistory])
+
+  // submitQuiz 함수 참조를 위한 ref
+  const submitQuizRef = useRef(submitQuiz)
+  submitQuizRef.current = submitQuiz
+
+  // getRemainingTime 함수 참조를 위한 ref
+  const getRemainingTimeRef = useRef(getRemainingTime)
+  getRemainingTimeRef.current = getRemainingTime
+
+  // 시간 제한에 따른 자동 제출
+  useEffect(() => {
+    if (isTimeUp && isTakingQuiz) {
+      console.log('⏰ 시간 제한 도달! 자동 제출합니다.')
+      alert('⏰ 시간이 다 되었습니다! 자동으로 제출됩니다.')
+      submitQuizRef.current()
+    }
+  }, [isTimeUp, isTakingQuiz])
+
+  // 시간 제한 5분 전 경고
+  useEffect(() => {
+    if (isTakingQuiz && currentTimeLimit > 0) {
+      const remainingTime = getRemainingTimeRef.current()
+      if (remainingTime === 300) { // 5분 = 300초
+        alert('⚠️ 시간이 5분 남았습니다!')
+      }
+    }
+  }, [seconds, isTakingQuiz, currentTimeLimit])
 
   const renderQuizQuestion = (quiz: PaperQuiz, index: number) => {
     return (
@@ -903,8 +973,13 @@ export default function QuizStep({ paperId, onNavigateToContent, onShowEvidenceI
                 <div className="flex items-center space-x-3 bg-gradient-to-r from-red-50 to-pink-50 px-4 py-2 rounded-full border border-red-200 shadow-sm">
                   <div className="w-5 h-5 border-2 border-red-500 border-t-transparent rounded-full animate-spin"></div>
                   <span className="text-lg font-mono font-bold text-red-600">
-                    {formatTime(seconds)}
+                    {currentTimeLimit > 0 ? formatTime(getRemainingTime() || 0) : formatTime(seconds)}
                   </span>
+                  {currentTimeLimit > 0 && (
+                    <span className="text-xs text-red-500">
+                      (제한: {currentTimeLimit}분)
+                    </span>
+                  )}
                 </div>
               )}
               {isTakingQuiz && (
@@ -1133,8 +1208,8 @@ export default function QuizStep({ paperId, onNavigateToContent, onShowEvidenceI
                                 }
 
                                 if (result.evidence) {
-                                  // 근거를 찾았으면 옆 논문에서 표시
-                                  console.log('실시간 근거 찾기 성공, 옆 논문에서 표시 시도:', {
+                                  // 근거를 찾았으면 옆 문서에서 표시
+                                  console.log('실시간 근거 찾기 성공, 옆 문서에서 표시 시도:', {
                                     contentId,
                                     evidence: result.evidence.substring(0, 50)
                                   })
@@ -1199,7 +1274,7 @@ export default function QuizStep({ paperId, onNavigateToContent, onShowEvidenceI
       {/* 퀴즈가 없을 때 */}
       {quizzes.length === 0 && (
         <div className="text-gray-500 text-center py-8">
-          이 논문에는 아직 퀴즈가 생성되지 않았습니다.
+                      이 문서에는 아직 퀴즈가 생성되지 않았습니다.
           <br />
           <span className="text-sm">&ldquo;🤖 AI 퀴즈 생성&rdquo; 버튼을 눌러보세요!</span>
         </div>

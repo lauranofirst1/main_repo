@@ -1,4 +1,4 @@
-// 논문 정보를 표시하는 공통 컴포넌트
+// 문서 정보를 표시하는 공통 컴포넌트
 'use client'
 
 import { Paper } from '@/models/paper'

@@ -42,13 +42,13 @@ export default function TopicPage() {
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false)
 
-  // 논문 리스트 상태
+  // 문서 리스트 상태
   const [papers, setPapers] = useState<Paper[]>([])
   const [papersLoading, setPapersLoading] = useState(true)
   const [favorites, setFavorites] = useState<number[]>([])
   const [recentViews, setRecentViews] = useState<number[]>([])
 
-  // 수정 중인 논문
+  // 수정 중인 문서
   const [editingPaper, setEditingPaper] = useState<Paper | null>(null)
 
   // 검색 / 뷰모드 / 정렬
@@ -63,7 +63,7 @@ export default function TopicPage() {
     }
   }, [user, loading, router])
 
-  // 논문 불러오기
+  // 문서 불러오기
   useEffect(() => {
     const fetchPapers = async () => {
       setPapersLoading(true)
@@ -73,7 +73,7 @@ export default function TopicPage() {
         .eq('paper_topic_id', topicId)
         .order('paper_created_at', { ascending: false })
       if (error) {
-        console.error('논문 목록 불러오기 실패:', error.message)
+        console.error('문서 목록 불러오기 실패:', error.message)
       } else {
         setPapers(data as Paper[])
       }
@@ -143,7 +143,7 @@ export default function TopicPage() {
       .eq('paper_topic_id', topicId)
       .order('paper_created_at', { ascending: false })
     if (error) {
-      console.error('논문 목록 갱신 실패:', error.message)
+              console.error('문서 목록 갱신 실패:', error.message)
     } else {
       setPapers(data as Paper[])
     }
@@ -170,7 +170,7 @@ export default function TopicPage() {
   }
 
   // 검색 필터 및 정렬
-  console.log('검색어:', searchQuery, '논문 수:', papers.length)
+          console.log('검색어:', searchQuery, '문서 수:', papers.length)
   const filteredPapers = papers
     .filter(p => {
       if (!searchQuery.trim()) return true
@@ -189,9 +189,9 @@ export default function TopicPage() {
       console.log('원본 검색어:', searchQuery)
       console.log('정리된 검색어:', searchTerm)
       console.log('정규화된 검색어:', normalizedSearch)
-      console.log('논문 제목:', title)
+              console.log('문서 제목:', title)
       console.log('정규화된 제목:', normalizedTitle)
-      console.log('논문 설명:', abstract)
+              console.log('문서 설명:', abstract)
       console.log('정규화된 설명:', normalizedAbstract)
       console.log('제목 포함 여부:', normalizedTitle.toLowerCase().includes(normalizedSearch.toLowerCase()))
       console.log('설명 포함 여부:', normalizedAbstract.toLowerCase().includes(normalizedSearch.toLowerCase()))

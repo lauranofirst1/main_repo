@@ -97,7 +97,7 @@ export default function PdfUploadModal({
         .single()
       if (topicError) throw new Error('주제 정보를 찾을 수 없습니다.')
       if (topicData.topic_user_id !== session.user.id) {
-        throw new Error('이 주제에 논문을 추가할 권한이 없습니다.')
+        throw new Error('이 주제에 문서를 추가할 권한이 없습니다.')
       }
 
       // 파일명 생성
@@ -195,7 +195,7 @@ export default function PdfUploadModal({
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between p-6 border-b">
-          <h2 className="text-lg font-semibold text-gray-900">논문 업로드</h2>
+          <h2 className="text-lg font-semibold text-gray-900">문서 업로드</h2>
           <button onClick={handleClose} disabled={isUploading}>
             <XMarkIcon className="h-6 w-6 text-gray-400 hover:text-gray-600" />
           </button>
@@ -275,13 +275,13 @@ export default function PdfUploadModal({
 
           <div>
             <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
-              논문 설명 (선택사항)
+                              문서 설명 (선택사항)
             </label>
             <textarea
               id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="논문에 대한 간단한 설명을 입력하세요..."
+                              placeholder="문서에 대한 간단한 설명을 입력하세요..."
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 resize-none"
               rows={4}
               disabled={isUploading}
@@ -295,7 +295,7 @@ export default function PdfUploadModal({
               disabled={apiStatus === 'offline'}
             >
               <DocumentArrowUpIcon className="h-5 w-5 mr-2" />
-              논문 업로드
+                              문서 업로드
             </button>
           )}
 

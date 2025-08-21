@@ -56,7 +56,7 @@ export default function LoginPage() {
           <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             StudyWithAI
           </h1>
-          <p className="text-gray-600 mt-2">AI를 활용한 스마트한 학습 플랫폼</p>
+          <p className="text-gray-600 mt-2">지역 교육 격차 해결을 위한 공공 학습 플랫폼</p>
         </div>
 
         {/* 로그인 폼 */}
@@ -139,9 +139,9 @@ export default function LoginPage() {
 
         {/* 하단 설명 */}
         <div className="text-center mt-8">
-          <p className="text-gray-500 text-sm">
-            학습 자료를 읽고, 요약하고, 퀴즈로 학습하세요
-          </p>
+                          <p className="text-gray-500 text-sm">
+                  모든 학생에게 동등한 학습 기회를 제공하는 공공 서비스입니다
+                </p>
         </div>
       </div>
     </div>

@@ -99,9 +99,11 @@ export async function POST(request: NextRequest) {
     // 환경 변수가 없으면 더미 데이터 사용
     let generatedQuizzes
     if (!process.env.OPENAI_API_KEY) {
-      console.log('OpenAI API 키가 없어서 더미 데이터를 사용합니다.')
+      console.log('⚠️ OpenAI API 키가 없어서 더미 데이터를 사용합니다.')
+      console.log('환경 변수 OPENAI_API_KEY를 설정해주세요.')
       generatedQuizzes = generateDummyQuizzes(options, paperContents)
     } else {
+      console.log('✅ OpenAI API 키가 설정되어 있습니다.')
       generatedQuizzes = await generateQuizzesWithAI(quizPrompt, options, paperContents)
     }
 
@@ -248,6 +250,11 @@ ${contents.map((content, index) => `${content.content_index + 1}. [${content.con
 
 async function generateQuizzesWithAI(prompt: string, options: any, contents: any[]): Promise<GeneratedQuiz[]> {
   try {
+    // API 키 디버깅 (처음 10자만 표시)
+    const apiKey = process.env.OPENAI_API_KEY
+    const maskedKey = apiKey ? `${apiKey.substring(0, 10)}...` : 'undefined'
+    console.log('🔑 OpenAI API 키 확인:', maskedKey)
+    
     // OpenAI API 호출
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -273,7 +280,18 @@ async function generateQuizzesWithAI(prompt: string, options: any, contents: any
     })
 
     if (!response.ok) {
-      console.error('OpenAI API 오류:', response.status, response.statusText)
+      const errorText = await response.text()
+      console.error('❌ OpenAI API 오류:', response.status, response.statusText)
+      console.error('❌ 오류 상세:', errorText)
+      
+      if (response.status === 401) {
+        console.error('🔑 401 오류: API 키가 유효하지 않습니다.')
+        console.error('🔑 해결 방법:')
+        console.error('   1. OpenAI 계정에서 새로운 API 키 생성')
+        console.error('   2. .env.local 파일의 OPENAI_API_KEY 업데이트')
+        console.error('   3. 서버 재시작')
+      }
+      
       throw new Error('AI 퀴즈 생성에 실패했습니다.')
     }
 
@@ -337,6 +355,12 @@ function generateDummyQuizzes(options: any, contents: any[]): GeneratedQuiz[] {
   
   // 기존 API 호환성을 위한 기본값 설정
   const defaultQuestionTypes = options.questionTypes || ['multiple_choice']
+  
+  console.log('더미 퀴즈 생성 시작:', {
+    questionCount: options.questionCount,
+    questionTypes: defaultQuestionTypes,
+    contentsCount: contents.length
+  })
   
   for (let i = 0; i < options.questionCount; i++) {
     const questionType = defaultQuestionTypes[i % defaultQuestionTypes.length]

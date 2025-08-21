@@ -7,6 +7,16 @@ import { supabase } from '@/lib/supabaseClient'
 import 'react-pdf/dist/Page/AnnotationLayer.css'
 import 'react-pdf/dist/Page/TextLayer.css'
 
+// 텍스트 레이어 숨기기 스타일
+const textLayerStyles = `
+  .react-pdf__Page__textContent {
+    display: none !important;
+  }
+  .react-pdf__Page__annotations {
+    display: none !important;
+  }
+`
+
 // PDF.js 워커 설정 - 로컬 파일 사용
 // SSR 문제를 피하기 위해 useEffect에서 설정
 let pdfjs: any = null
@@ -134,6 +144,7 @@ export default function PdfViewer({ filePath, title }: PdfViewerProps) {
 
   return (
     <div className="h-full flex flex-col bg-white rounded-lg border border-gray-200">
+      <style dangerouslySetInnerHTML={{ __html: textLayerStyles }} />
       {/* 컨트롤 */}
       {numPages > 0 && (
         <div className="flex-shrink-0 flex flex-col sm:flex-row items-center justify-between gap-2 p-3 bg-gray-50 border-b border-gray-200">
@@ -193,7 +204,7 @@ export default function PdfViewer({ filePath, title }: PdfViewerProps) {
             <Page
               pageNumber={pageNumber}
               scale={scale}
-              renderTextLayer={true}
+              renderTextLayer={false}
               renderAnnotationLayer={true}
               className="max-w-full h-auto"
             />

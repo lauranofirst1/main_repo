@@ -86,7 +86,7 @@ export default function PaperCard({
       {/* 중간: 설명 */}
       <div className="p-4 flex-1 min-h-0">
         <p className="text-sm text-gray-600 leading-relaxed line-clamp-2">
-          {description || '논문 설명이 없습니다.'}
+                          {description || '문서 설명이 없습니다.'}
         </p>
       </div>
 
@@ -108,7 +108,7 @@ export default function PaperCard({
                 setMenuOpen((v) => !v)
               }}
               className="p-2 hover:bg-gray-200 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            aria-label="논문 설정 메뉴 열기"
+            aria-label="문서 설정 메뉴 열기"
           >
               <CogIcon className="w-4 h-4 text-gray-500" />
           </button>
